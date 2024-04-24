@@ -12,13 +12,13 @@ namespace pr5
 {
     public partial class EmployeesPage : Page
     {
-        private prEntities db;
+        private prEntities2 db;
         private ObservableCollection<Employees> employeesList;
 
         public EmployeesPage()
         {
             InitializeComponent();
-            db = new prEntities();
+            db = new prEntities2();
             LoadComboBoxData();
             LoadEmployeesData();
         }
@@ -160,13 +160,28 @@ namespace pr5
             }
         }
 
+        private bool isResettingText = false;
+
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (sender is TextBox textBox)
             {
-                if (string.IsNullOrWhiteSpace(textBox.Text))
+                if (!isResettingText)
                 {
-                    textBox.Text = textBox.Tag.ToString();
+                    try
+                    {
+                        if (!Regex.IsMatch(textBox.Text, @"^[а-яА-Яa-zA-Z0-9@.,]+$") || !Char.IsLetter(textBox.Text[0]))
+                        {
+                            MessageBox.Show("Пожалуйста, введите только буквы (включая русские), цифры и символ '@', и убедитесь, что первый символ - буква.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            isResettingText = true;
+                            textBox.Text = textBox.Tag.ToString();
+                            isResettingText = false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при проверке ввода: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }
@@ -179,6 +194,25 @@ namespace pr5
                 {
                     passwordBox.Password = "";
                 }
+            }
+        }
+        private void EmployeesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (EmployeesDataGrid.SelectedItem != null)
+            {
+                Employees selectedEmployee = (Employees)EmployeesDataGrid.SelectedItem;
+                text1.Text = selectedEmployee.Last_Name;
+                text2.Text = selectedEmployee.First_Name;
+                text3.Text = selectedEmployee.Middle_Name;
+                text4.Text = selectedEmployee.Phone_Number;
+
+                positionComboBox.SelectedItem = selectedEmployee.Position;
+                addressComboBox.SelectedItem = selectedEmployee.Store;
+
+                positionComboBox.SelectedItem = selectedEmployee.Position;
+                addressComboBox.SelectedItem = selectedEmployee.Store;
+
+
             }
         }
 

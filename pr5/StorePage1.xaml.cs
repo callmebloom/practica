@@ -20,14 +20,14 @@ namespace pr5
     /// </summary>
     public partial class StorePage1 : Page
     {
-        private prEntities db;
+        private prEntities2 db;
         private Random random;
 
         public StorePage1()
         {
             InitializeComponent();
 
-            db = new prEntities();
+            db = new prEntities2();
             random = new Random();
             LoadStoreData();
         }

@@ -6,45 +6,44 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!-- Форма и кнопки -->
         <Grid Grid.Row="0" Margin="10">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
                 <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Orientation="Vertical" Margin="5">
-                <TextBox x:Name="text1" Text="Last Name" Tag="Last Name" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-                <TextBox x:Name="text2" Text="First Name" Tag="First Name" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-                <TextBox x:Name="text3" Text="Middle Name" Tag="Middle Name" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-                <TextBox x:Name="text4" Text="Phone Number" Tag="Phone Number" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-                <TextBox x:Name="text5" Text="Email" Tag="Email" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-                <TextBox x:Name="text6" Text="Address" Tag="Address" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-                <TextBox x:Name="text7" Text="Username" Tag="Username" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-                <TextBox x:Name="passwordBox" Text="Password" Tag="Password" Margin="5" GotFocus="PasswordBox_GotFocus" LostFocus="PasswordBox_LostFocus"/>
-
+                <TextBox x:Name="text1" Text="Фамилия" Tag="Last Name" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                <TextBox x:Name="text2" Text="Имя" Tag="First Name" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                <TextBox x:Name="text3" Text="Отчество" Tag="Middle Name" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                <TextBox x:Name="text4" Text="Номер" Tag="Phone Number" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                <TextBox x:Name="text5" Text="Почта" Tag="Email" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                <TextBox x:Name="text6" Text="Адрес" Tag="Address" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                <TextBox x:Name="text7" Text="логин" Tag="Username" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+                <TextBox x:Name="passwordBox" Text="пароль" Tag="Password" Margin="5" GotFocus="PasswordBox_GotFocus" LostFocus="PasswordBox_LostFocus"/>
             </StackPanel>
 
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5">
-                <Button Content="Add" Click="Add_Click" Margin="5"/>
-                <Button Content="Edit" Click="Edit_Click" Margin="5"/>
-                <Button Content="Delete" Click="Delete_Click" Margin="5"/>
+            <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5">
+                <Button Content="добавить" Click="Add_Click" Margin="5"/>
+                <Button Content="редактировать" Click="Edit_Click" Margin="5"/>
+                <Button Content="удалить" Click="Delete_Click" Margin="5"/>
             </StackPanel>
         </Grid>
 
-        <DataGrid x:Name="ClientDataGrid" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" Margin="10">
+        <!-- DataGrid -->
+        <DataGrid x:Name="ClientDataGrid" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" Margin="0,10,0,10">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Last Name" Binding="{Binding Last_Name}"/>
-                <DataGridTextColumn Header="First Name" Binding="{Binding First_Name}"/>
-                <DataGridTextColumn Header="Middle Name" Binding="{Binding Middle_Name}"/>
-                <DataGridTextColumn Header="Phone Number" Binding="{Binding Phone_Number}"/>
-                <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
-                <DataGridTextColumn Header="Address" Binding="{Binding Address_Client}"/>
-                <DataGridTextColumn Header="Roles" Binding="{Binding Roles.Roless}"/>
-
+                <DataGridTextColumn Header="фамилия" Binding="{Binding Last_Name}"/>
+                <DataGridTextColumn Header="имя" Binding="{Binding First_Name}"/>
+                <DataGridTextColumn Header="отчество" Binding="{Binding Middle_Name}"/>
+                <DataGridTextColumn Header="номер" Binding="{Binding Phone_Number}"/>
+                <DataGridTextColumn Header="почта" Binding="{Binding Email}"/>
+                <DataGridTextColumn Header="адрес" Binding="{Binding Address_Client}"/>
+                <DataGridTextColumn Header="роль" Binding="{Binding Roles.Roless}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

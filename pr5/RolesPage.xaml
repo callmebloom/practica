@@ -8,25 +8,21 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Panel с элементами управления -->
+   
         <StackPanel Orientation="Horizontal" Margin="10">
-            <!-- Текстбокс для ввода роли -->
-            <TextBox x:Name="RoleNameTextBox" Text="Enter Role Name" Margin="5"/>
+          
+            <TextBox x:Name="RoleNameTextBox" Text="Роль" Margin="5" LostFocus="TextBox_LostFocus"/>
 
-            <!-- Кнопка добавления -->
-            <Button Content="Add" Click="Add_Click" Margin="5"/>
-
-            <!-- Кнопка редактирования -->
-            <Button Content="Edit" Click="Edit_Click" Margin="5"/>
-
-            <!-- Кнопка удаления -->
-            <Button Content="Delete" Click="Delete_Click" Margin="5"/>
+         
+                <Button Content="добавить" Click="Add_Click" Margin="5"/>
+                <Button Content="редактировать" Click="Edit_Click" Margin="5"/>
+                <Button Content="удалить" Click="Delete_Click" Margin="5"/>
         </StackPanel>
 
-        <!-- DataGrid для отображения списка ролей -->
-        <DataGrid x:Name="RolesDataGrid" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" Margin="10">
+     
+        <DataGrid x:Name="RolesDataGrid" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True"  SelectionChanged="RolesDataGrid_SelectionChanged" Margin="10">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Roles" Binding="{Binding Roless}"/>
+                <DataGridTextColumn Header="роль" Binding="{Binding Roless}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

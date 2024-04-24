@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -7,13 +8,13 @@ namespace pr5
 {
     public partial class RolesPage : Page
     {
-        private prEntities db;
+        private prEntities2 db;
 
         public RolesPage()
         {
             InitializeComponent();
-
-            db = new prEntities();
+    
+            db = new prEntities2();
 
             LoadRolesData();
         }
@@ -97,5 +98,38 @@ namespace pr5
                 MessageBox.Show("Выберите роль для удаления.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        private bool isResettingText = false;
+        private void RolesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (RolesDataGrid.SelectedItem != null)
+            {
+                Roles selectedRole = (Roles)RolesDataGrid.SelectedItem;
+                RoleNameTextBox.Text = selectedRole.Roless;
+            }
+        }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox textBox)
+            {
+                if (!isResettingText)
+                {
+                    try
+                    {
+                        if (!Regex.IsMatch(textBox.Text, @"^[а-яА-Яa-zA-Z0-9@.,]+$") || !Char.IsLetter(textBox.Text[0]))
+                        {
+                            MessageBox.Show("Пожалуйста, введите только буквы (включая русские), цифры и символ '@', и убедитесь, что первый символ - буква.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                            isResettingText = false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при проверке ввода: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+        }
+
     }
 }

@@ -10,7 +10,7 @@
 
     <DataGrid x:Name="StoreDataGrid" Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True" Margin="10">
         <DataGrid.Columns>
-            <DataGridTextColumn Header="Address" Binding="{Binding S_Address}"/>
+            <DataGridTextColumn Header="адрес" Binding="{Binding S_Address}"/>
         </DataGrid.Columns>
     </DataGrid>
 </Page>

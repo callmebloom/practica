@@ -16,9 +16,15 @@ namespace pr5
             string username = txtUsername.Text;
             string password = txtPassword.Password;
 
-            try
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                using (var context = new prEntities())
+                MessageBox.Show("Please enter username and password.");
+                return;
+            }
+
+                try
+            {
+                using (var context = new prEntities2())
                 {
                     var user = context.User_Authentication
                         .FirstOrDefault(u => u.Username == username && u.Password_user == password);

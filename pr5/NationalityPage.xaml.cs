@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -7,12 +8,12 @@ namespace pr5
 {
     public partial class NationalityPage : Page
     {
-        private prEntities db;
+        private prEntities2 db;
 
         public NationalityPage()
         {
             InitializeComponent();
-            db = new prEntities();
+            db = new prEntities2();
             LoadNationalitiesData();
         }
 
@@ -119,17 +120,40 @@ namespace pr5
                 }
             }
         }
+        private bool isResettingText = false;
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (sender is TextBox textBox)
             {
-                if (string.IsNullOrWhiteSpace(textBox.Text))
+                if (!isResettingText)
                 {
-                    textBox.Text = textBox.Tag.ToString();
+                    try
+                    {
+                        if (!Regex.IsMatch(textBox.Text, @"^[а-яА-Яa-zA-Z0-9@.,]+$") || !Char.IsLetter(textBox.Text[0]))
+                        {
+                            MessageBox.Show("Пожалуйста, введите только буквы (включая русские), цифры и символ '@', и убедитесь, что первый символ - буква.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            isResettingText = true;
+                            textBox.Text = textBox.Tag.ToString();
+                            isResettingText = false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при проверке ввода: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }
+        private void NationalityDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (NationalityDataGrid.SelectedItem != null)
+            {
+                Nationality selectedNationality = (Nationality)NationalityDataGrid.SelectedItem;
+                text1.Text = selectedNationality.Nationalityy;
+            }
+        }
+
 
         private void ClearTextBoxes()
         {

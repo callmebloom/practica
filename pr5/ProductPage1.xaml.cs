@@ -20,12 +20,12 @@ namespace pr5
     /// </summary>
     public partial class ProductPage1 : Page
     {
-        private prEntities db;
+        private prEntities2 db;
         public ProductPage1()
         {
             InitializeComponent();
 
-            db = new prEntities();
+            db = new prEntities2();
             LoadProductData();
         }
 

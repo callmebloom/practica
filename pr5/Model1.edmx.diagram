@@ -4,21 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="35572733289b421f81e157dcc22dfb8b" Name="Diagram1" ZoomLevel="57">
-        <EntityTypeShape EntityType="prModel.Client" Width="1.5" PointX="5.25" PointY="14" IsExpanded="true" />
-        <EntityTypeShape EntityType="prModel.Employees" Width="1.5" PointX="8.25" PointY="13.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="prModel.Employers" Width="1.5" PointX="5.25" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="prModel.Nationality" Width="1.5" PointX="5.25" PointY="7.75" IsExpanded="true" />
+      <Diagram DiagramId="a95f548097f7446f925ceb0001d5327f" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="prModel.Client" Width="1.5" PointX="5.25" PointY="13.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="prModel.Employees" Width="1.5" PointX="8.25" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="prModel.Employers" Width="1.5" PointX="5.25" PointY="10" IsExpanded="true" />
+        <EntityTypeShape EntityType="prModel.Nationality" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
         <EntityTypeShape EntityType="prModel.New_Employees" Width="1.5" PointX="7.5" PointY="8.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="prModel.Orders" Width="1.5" PointX="10.5" PointY="14.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="prModel.Position" Width="1.5" PointX="3" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="prModel.Product" Width="1.5" PointX="10.625" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="prModel.Orders" Width="1.5" PointX="10.5" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="prModel.Position" Width="1.5" PointX="3" PointY="10.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="prModel.Product" Width="1.5" PointX="1.5" PointY="24.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="prModel.Receipts" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="prModel.Roles" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="prModel.Statuses" Width="1.5" PointX="3.375" PointY="15.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="prModel.Store" Width="1.5" PointX="15.125" PointY="10.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="prModel.Training_Data" Width="1.5" PointX="10.125" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="prModel.User_Authentication" Width="1.5" PointX="12.75" PointY="14.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="prModel.Warehouse" Width="1.5" PointX="12.875" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="prModel.Statuses" Width="1.5" PointX="8.25" PointY="18.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="prModel.Store" Width="1.5" PointX="6" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="prModel.Training_Data" Width="1.5" PointX="5.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="prModel.User_Authentication" Width="1.5" PointX="3" PointY="20.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="prModel.Warehouse" Width="1.5" PointX="3.75" PointY="24.625" IsExpanded="true" />
         <AssociationConnector Association="prModel.FK_Authorization_Client" ManuallyRouted="false" />
         <AssociationConnector Association="prModel.FK_Client_Orders" ManuallyRouted="false" />
         <AssociationConnector Association="prModel.FK_Client_Roles" ManuallyRouted="false" />

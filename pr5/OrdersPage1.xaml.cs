@@ -8,14 +8,14 @@ namespace pr5
 {
     public partial class OrdersPage1 : Page
     {
-        private prEntities db;
+        private prEntities2 db;
         private int currentUserId;
 
         public OrdersPage1(int userId)
         {
             InitializeComponent();
 
-            db = new prEntities();
+            db = new prEntities2();
             currentUserId = userId;
 
             LoadOrdersData();

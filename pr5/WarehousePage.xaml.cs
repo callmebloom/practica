@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -7,13 +8,13 @@ namespace pr5
 {
     public partial class WarehousePage : Page
     {
-        private prEntities db;
+        private prEntities2 db;
 
         public WarehousePage()
         {
             InitializeComponent();
 
-            db = new prEntities();
+            db = new prEntities2();
             LoadProductData();
             LoadWarehouseData();
         }
@@ -45,9 +46,17 @@ namespace pr5
                     return;
                 }
 
+                int selectedProductId = (int)productComboBox.SelectedValue;
+
+                if (db.Warehouse.Any(item => item.Product_ID == selectedProductId))
+                {
+                    MessageBox.Show("Продукт уже существует на складе.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
+                }
+
                 Warehouse newWarehouse = new Warehouse()
                 {
-                    Product_ID = (int)productComboBox.SelectedValue,
+                    Product_ID = selectedProductId,
                     Quantity = quantity,
                     W_Availability = "В наличии"
                 };
@@ -63,6 +72,7 @@ namespace pr5
                 MessageBox.Show("Ошибка при добавлении данных на склад: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
 
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
@@ -143,15 +153,40 @@ namespace pr5
                 }
             }
         }
+        private bool isResettingText = false;
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (sender is TextBox textBox)
             {
-                if (string.IsNullOrWhiteSpace(textBox.Text))
+                if (!isResettingText)
                 {
-                    textBox.Text = textBox.Tag.ToString();
+                    try
+                    {
+                        if (!Regex.IsMatch(textBox.Text, @"^[а-яА-Яa-zA-Z0-9@.,]+$"))
+                        {
+                            MessageBox.Show("Пожалуйста, введите только буквы (включая русские), цифры и символ '@'.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            isResettingText = true;
+                            textBox.Text = textBox.Tag.ToString();
+                            isResettingText = false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при проверке ввода: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
+            }
+        }
+
+        private void WarehouseDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (WarehouseDataGrid.SelectedItem != null)
+            {
+                Warehouse selectedWarehouse = (Warehouse)WarehouseDataGrid.SelectedItem;
+   
+                quantityTextBox.Text = selectedWarehouse.Quantity.ToString();
+                productComboBox.SelectedItem = selectedWarehouse.Product; 
             }
         }
 

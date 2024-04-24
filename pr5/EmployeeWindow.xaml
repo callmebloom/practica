@@ -23,7 +23,6 @@
             <ListViewItem Content="Training_Data"/>
             <ListViewItem Content="User_Authentication"/>
             <ListViewItem Content="Roles"/>
-            <ListViewItem Content="Backup"/>
             <ListViewItem Content="Кассир"/>
         </ListView>
 

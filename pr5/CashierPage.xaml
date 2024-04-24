@@ -15,9 +15,8 @@
         </Grid.RowDefinitions>
 
         <!-- Товары -->
-        <DataGrid x:Name="ProductsDataGrid" Grid.Row="0" ItemsSource="{Binding Products}" AutoGenerateColumns="False">
+        <DataGrid x:Name="ProductsDataGrid" Grid.Row="0" IsReadOnly="True" ItemsSource="{Binding Products}" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Product_ID}"/>
                 <DataGridTextColumn Header="Название" Binding="{Binding Product_Name}"/>
                 <DataGridTextColumn Header="Цена" Binding="{Binding Price}"/>
             </DataGrid.Columns>
@@ -35,6 +34,13 @@
             <TextBlock x:Name="TotalAmountTextBlock"/>
             <TextBox x:Name="AmountPaidTextBox" Text="0"/>
             <Button Content="Выдать чек" Click="GenerateReceipt_Click"/>
+            <Button Grid.Row="4" Content="Просмотреть чеки" Click="ViewReceipts_Click"/>
+            <Button Grid.Row="3" Content="Экспортировать чек" Click="ExportReceipt_Click" VerticalAlignment="Bottom"/>
+            <ListBox x:Name="ReceiptsListBox" Grid.Row="4"/>
+
         </StackPanel>
+
+        <!-- Кнопка для просмотра и экспорта чеков -->
+       
     </Grid>
 </Page>

@@ -2,6 +2,7 @@
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,13 +10,13 @@ namespace pr5
 {
     public partial class PositionPage : Page
     {
-        private prEntities db;
+        private prEntities2 db;
 
         public PositionPage()
         {
             InitializeComponent();
 
-            db = new prEntities();
+            db = new prEntities2();
             LoadPositionsData();
         }
 
@@ -133,21 +134,57 @@ namespace pr5
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-
-            if (textBox != null && textBox.Text == textBox.Tag.ToString())
+            if (sender is TextBox textBox)
             {
-                textBox.Text = "";
+                if (textBox.Text == textBox.Tag.ToString())
+                {
+                    textBox.Text = "";
+                }
+            }
+            else if (sender is ComboBox comboBox)
+            {
+                if (comboBox.Text == comboBox.Tag.ToString())
+                {
+                    comboBox.Text = "";
+                }
             }
         }
+        private bool isResettingText = false;
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            TextBox textBox = sender as TextBox;
-
-            if (textBox != null && string.IsNullOrWhiteSpace(textBox.Text))
+            if (sender is TextBox textBox)
             {
-                textBox.Text = textBox.Tag.ToString();
+                if (!isResettingText)
+                {
+                    try
+                    {
+                        if (!Regex.IsMatch(textBox.Text, @"^[а-яА-Яa-zA-Z0-9@.,]+$") || !Char.IsLetter(textBox.Text[0]))
+                        {
+                            MessageBox.Show("Пожалуйста, введите только буквы (включая русские), цифры и символ '@', и убедитесь, что первый символ - буква.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            isResettingText = true;
+                            textBox.Text = textBox.Tag.ToString();
+                            isResettingText = false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при проверке ввода: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                }
+            }
+        }
+
+
+        private void PositionDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+         
+            if (PositionDataGrid.SelectedItem != null)
+            {
+                Position selectedPosition = (Position)PositionDataGrid.SelectedItem;
+
+                positionTitleTextBox.Text = selectedPosition.Position_Title;
+                scheduleComboBox.Text = selectedPosition.Schedule;
             }
         }
 

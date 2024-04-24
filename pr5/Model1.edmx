@@ -65,7 +65,6 @@
           <Property Name="Training_Data_ID" Type="int" Nullable="false" />
           <Property Name="Employee_First_Name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="Employee_Middle_Name" Type="varchar" MaxLength="100" />
-          <Property Name="ID_Roles" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Orders">
           <Key>
@@ -94,6 +93,14 @@
           <Property Name="Product_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Product_Name" Type="varchar" MaxLength="255" Nullable="false" />
           <Property Name="Price" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Receipts">
+          <Key>
+            <PropertyRef Name="Receipt_ID" />
+          </Key>
+          <Property Name="Receipt_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Receipt_Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Date_Created" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -140,7 +147,6 @@
           <Property Name="Warehouse_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Product_ID" Type="int" Nullable="false" />
           <Property Name="Quantity" Type="int" Nullable="false" />
-          <Property Name="W_Availability" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <Association Name="FK_Authorization_Client">
           <End Role="User_Authentication" Type="Self.User_Authentication" Multiplicity="1" />
@@ -391,6 +397,7 @@
           <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Product" EntityType="Self.Product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Receipts" EntityType="Self.Receipts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Store" EntityType="Self.Store" Schema="dbo" store:Type="Tables" />
@@ -556,7 +563,6 @@
           <Property Name="Training_Data_ID" Type="Int32" Nullable="false" />
           <Property Name="Employee_First_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Employee_Middle_Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ID_Roles" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Employers" Relationship="Self.FK_Employers_New_Employees" FromRole="New_Employees" ToRole="Employers" />
           <NavigationProperty Name="Nationality" Relationship="Self.FK_Nationality_New_Employees" FromRole="New_Employees" ToRole="Nationality" />
           <NavigationProperty Name="Position" Relationship="Self.FK_Position_New_Employees" FromRole="New_Employees" ToRole="Position" />
@@ -597,6 +603,14 @@
           <Property Name="Product_Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Price" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <NavigationProperty Name="Warehouse" Relationship="Self.FK_Product_Warehouse" FromRole="Product" ToRole="Warehouse" />
+        </EntityType>
+        <EntityType Name="Receipts">
+          <Key>
+            <PropertyRef Name="Receipt_ID" />
+          </Key>
+          <Property Name="Receipt_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Receipt_Content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Date_Created" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
         <EntityType Name="Roles">
           <Key>
@@ -656,7 +670,6 @@
           <Property Name="Warehouse_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Product_ID" Type="Int32" Nullable="false" />
           <Property Name="Quantity" Type="Int32" Nullable="false" />
-          <Property Name="W_Availability" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Product" Relationship="Self.FK_Product_Warehouse" FromRole="Warehouse" ToRole="Product" />
           <NavigationProperty Name="Store" Relationship="Self.FK_Warehouse_Store" FromRole="Warehouse" ToRole="Store" />
         </EntityType>
@@ -900,7 +913,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="prEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="prEntities2" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Client" EntityType="Self.Client" />
           <EntitySet Name="Employees" EntityType="Self.Employees" />
           <EntitySet Name="Employers" EntityType="Self.Employers" />
@@ -909,6 +922,7 @@
           <EntitySet Name="Orders" EntityType="Self.Orders" />
           <EntitySet Name="Position" EntityType="Self.Position" />
           <EntitySet Name="Product" EntityType="Self.Product" />
+          <EntitySet Name="Receipts" EntityType="Self.Receipts" />
           <EntitySet Name="Roles" EntityType="Self.Roles" />
           <EntitySet Name="Statuses" EntityType="Self.Statuses" />
           <EntitySet Name="Store" EntityType="Self.Store" />
@@ -1001,7 +1015,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище prModelContainer" CdmEntityContainer="prEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище prModelContainer" CdmEntityContainer="prEntities2">
           <EntitySetMapping Name="Client">
             <EntityTypeMapping TypeName="prModel.Client">
               <MappingFragment StoreEntitySet="Client">
@@ -1065,7 +1079,6 @@
                 <ScalarProperty Name="Training_Data_ID" ColumnName="Training_Data_ID" />
                 <ScalarProperty Name="Employee_First_Name" ColumnName="Employee_First_Name" />
                 <ScalarProperty Name="Employee_Middle_Name" ColumnName="Employee_Middle_Name" />
-                <ScalarProperty Name="ID_Roles" ColumnName="ID_Roles" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1097,6 +1110,15 @@
                 <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
                 <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Receipts">
+            <EntityTypeMapping TypeName="prModel.Receipts">
+              <MappingFragment StoreEntitySet="Receipts">
+                <ScalarProperty Name="Receipt_ID" ColumnName="Receipt_ID" />
+                <ScalarProperty Name="Receipt_Content" ColumnName="Receipt_Content" />
+                <ScalarProperty Name="Date_Created" ColumnName="Date_Created" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1149,7 +1171,6 @@
                 <ScalarProperty Name="Warehouse_ID" ColumnName="Warehouse_ID" />
                 <ScalarProperty Name="Product_ID" ColumnName="Product_ID" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="W_Availability" ColumnName="W_Availability" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -8,28 +8,32 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Верхняя часть страницы с полями ввода -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5">
-            <TextBox x:Name="orderNumberTextBox" Text="Order Number" Tag="Order Number" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+            <TextBox x:Name="orderNumberTextBox" Text="номер ордера" Tag="Order Number" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
             <DatePicker x:Name="orderDatePicker" Margin="5"/>
             <ComboBox x:Name="clientNameComboBox" DisplayMemberPath="First_Name" SelectedValuePath="Client_ID" Margin="5"/>
             <ComboBox x:Name="clientAddressComboBox" DisplayMemberPath="S_Address" SelectedValuePath="Store_ID" Margin="5"/>
             <ComboBox x:Name="employeeAddressComboBox" DisplayMemberPath="First_Name" SelectedValuePath="Employee_ID" Margin="5"/>
             <ComboBox x:Name="statusComboBox" DisplayMemberPath="Status_Type" SelectedValuePath="Status_ID" Margin="5"/>
-            <Button Content="Add" Click="Add_Click" Margin="5"/>
-            <Button x:Name="edit" Content="Edit" Click="Edit_Click" Margin="5"/>
-            <Button Content="Delete" Click="Delete_Click" Margin="5"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5">
+                <Button Content="добавить" Click="Add_Click" Margin="5"/>
+                <Button Content="редактировать" Click="Edit_Click" Margin="5"/>
+                <Button Content="удалить" Click="Delete_Click" Margin="5"/>
+                <ComboBox x:Name="storeAddressComboBox" DisplayMemberPath="S_Address" SelectedValuePath="Store_ID" Margin="5" SelectionChanged="StoreAddressComboBox_SelectionChanged" Width="83"/>
+                <TextBox x:Name="ClientNameSearchTextBox" Text="Поиск по имени клиента" Margin="5" Grid.Column="1" Grid.Row="1" TextChanged="ClientNameSearchTextBox_TextChanged"/>
+                <Button x:Name="ResetFilterButton" Content="Сбросить фильтр" Click="ResetFilterButton_Click" Margin="5"/>
+
+            </StackPanel>
         </StackPanel>
 
-        <!-- Центральная часть страницы с таблицей -->
-        <DataGrid x:Name="OrdersDataGrid" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" Margin="10">
+        <DataGrid x:Name="OrdersDataGrid" Grid.Row="1" AutoGenerateColumns="False" SelectionChanged="OrdersDataGrid_SelectionChanged" IsReadOnly="True" Margin="10">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Client" Binding="{Binding Client.First_Name}"/>
-                <DataGridTextColumn Header="Employee" Binding="{Binding Employees.First_Name}"/>
-                <DataGridTextColumn Header="Order Number" Binding="{Binding Order_Number}"/>
-                <DataGridTextColumn Header="Order Date" Binding="{Binding Order_Date}"/>
-                <DataGridTextColumn Header="Store Address" Binding="{Binding Store.S_Address}"/>
-                <DataGridTextColumn Header="Status" Binding="{Binding Statuses.Status_Type}"/>
+                <DataGridTextColumn Header="клиент имя" Binding="{Binding Client.First_Name}"/>
+                <DataGridTextColumn Header="сотрудник имя" Binding="{Binding Employees.First_Name}"/>
+                <DataGridTextColumn Header="номер заказа" Binding="{Binding Order_Number}"/>
+                <DataGridTextColumn Header="дата заказа" Binding="{Binding Order_Date}"/>
+                <DataGridTextColumn Header="адрес магазина" Binding="{Binding Store.S_Address}"/>
+                <DataGridTextColumn Header="статус" Binding="{Binding Statuses.Status_Type}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

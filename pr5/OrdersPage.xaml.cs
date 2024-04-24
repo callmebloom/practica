@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -7,17 +8,24 @@ namespace pr5
 {
     public partial class OrdersPage : Page
     {
-        private prEntities db;
-
+        private prEntities2 db;
+        private void LoadStoreAddresses()
+        {
+            storeAddressComboBox.ItemsSource = db.Store.ToList();
+        }
         public OrdersPage()
         {
             InitializeComponent();
-
-            db = new prEntities();
+            db = new prEntities2();
             LoadComboBoxData();
             LoadOrdersData();
+            LoadStoreAddresses();
         }
-
+        private void ResetFilterButton_Click(object sender, RoutedEventArgs e)
+        {
+            ClientNameSearchTextBox.Text = "";
+            LoadOrdersData();
+        }
         private void LoadComboBoxData()
         {
             clientNameComboBox.ItemsSource = db.Client.ToList();
@@ -28,7 +36,39 @@ namespace pr5
 
         private void LoadOrdersData()
         {
-            OrdersDataGrid.ItemsSource = db.Orders.ToList();
+            if (db != null)
+                OrdersDataGrid.ItemsSource = db.Orders.ToList();
+        }
+
+        private void ClientNameSearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            string searchString = ClientNameSearchTextBox.Text.Trim().ToLower();
+            if (db != null && OrdersDataGrid != null)
+            {
+                if (!string.IsNullOrWhiteSpace(searchString))
+                {
+                    var orders = db.Orders.ToList().Where(o => o.Client.First_Name.ToLower().Contains(searchString)).ToList();
+                    OrdersDataGrid.ItemsSource = orders;
+                }
+                else
+                {
+                    LoadOrdersData();
+                }
+            }
+        }
+        private void OrdersDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (OrdersDataGrid.SelectedItem != null)
+            {
+                Orders selectedOrder = (Orders)OrdersDataGrid.SelectedItem;
+
+                orderNumberTextBox.Text = selectedOrder.Order_Number;
+                orderDatePicker.SelectedDate = selectedOrder.Order_Date;
+                clientNameComboBox.SelectedValue = selectedOrder.Client_ID;
+                clientAddressComboBox.SelectedValue = selectedOrder.Store_ID;
+                employeeAddressComboBox.SelectedValue = selectedOrder.Employee_ID;
+                statusComboBox.SelectedValue = selectedOrder.Status_ID;
+            }
         }
 
         private void Add_Click(object sender, RoutedEventArgs e)
@@ -155,16 +195,41 @@ namespace pr5
             }
         }
 
+        private bool isResettingText = false;
+
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (sender is TextBox textBox)
             {
-                if (string.IsNullOrWhiteSpace(textBox.Text))
+                if (!isResettingText)
                 {
-                    textBox.Text = textBox.Tag.ToString();
+                    try
+                    {
+                        if (!Regex.IsMatch(textBox.Text, @"^[а-яА-Яa-zA-Z0-9@.,]+$") || !Char.IsLetter(textBox.Text[0]))
+                        {
+                            MessageBox.Show("Пожалуйста, введите только буквы (включая русские), цифры и символ '@', и убедитесь, что первый символ - буква.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            isResettingText = true;
+                            textBox.Text = textBox.Tag.ToString();
+                            isResettingText = false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при проверке ввода: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }
+        private void StoreAddressComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (storeAddressComboBox.SelectedItem != null)
+            {
+                int selectedStoreID = (int)storeAddressComboBox.SelectedValue;
+                OrdersDataGrid.ItemsSource = db.Orders.Where(o => o.Store_ID == selectedStoreID).ToList();
+            }
+        }
+
+
 
         private void ClearInputFields()
         {

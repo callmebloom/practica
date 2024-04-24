@@ -11,20 +11,20 @@
 
         <!-- Поля для нового адреса -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5">
-            <TextBox x:Name="addressTextBox" Text="Address" Tag="Address" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-            <Button Content="Add" Click="Add_Click" Margin="5"/>
+            <TextBox x:Name="addressTextBox" Text="адрес" Tag="Address" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+            <Button Content="добавить" Click="Add_Click" Margin="5"/>
         </StackPanel>
 
         <!-- Кнопки для редактирования и удаления -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5">
-            <Button Content="Edit" Click="Edit_Click" Margin="5"/>
-            <Button Content="Delete" Click="Delete_Click" Margin="5"/>
+            <Button Content="редактировать" Click="Edit_Click" Margin="5"/>
+            <Button Content="удалить" Click="Delete_Click" Margin="5"/>
         </StackPanel>
 
         <!-- Таблица с адресами -->
-        <DataGrid x:Name="StoreDataGrid" Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True" Margin="10">
+        <DataGrid x:Name="StoreDataGrid" Grid.Row="2" AutoGenerateColumns="False" SelectionChanged="StoreDataGrid_SelectionChanged" IsReadOnly="True" Margin="10">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Address" Binding="{Binding S_Address}"/>
+                <DataGridTextColumn Header="адрес" Binding="{Binding S_Address}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

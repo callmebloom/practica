@@ -13,10 +13,10 @@ namespace pr5
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class prEntities : DbContext
+    public partial class prEntities2 : DbContext
     {
-        public prEntities()
-            : base("name=prEntities")
+        public prEntities2()
+            : base("name=prEntities2")
         {
         }
     
@@ -33,6 +33,7 @@ namespace pr5
         public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<Position> Position { get; set; }
         public virtual DbSet<Product> Product { get; set; }
+        public virtual DbSet<Receipts> Receipts { get; set; }
         public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<Statuses> Statuses { get; set; }
         public virtual DbSet<Store> Store { get; set; }

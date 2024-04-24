@@ -60,9 +60,7 @@ namespace pr5
                 case "Roles":
                     MainFrame.Content = new RolesPage();
                     break;
-                case "Backup":
-                    MainFrame.Content = new BackupPage();
-                    break;
+             
                 case "Кассир":
                     MainFrame.Content = new CashierPage();
                     break;

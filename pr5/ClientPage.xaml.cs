@@ -11,12 +11,12 @@ namespace pr5
 {
     public partial class ClientPage : Page
     {
-        private prEntities db;
+        private prEntities2 db;
 
         public ClientPage()
         {
             InitializeComponent();
-            db = new prEntities();
+            db = new prEntities2();
 
             LoadClientData();
             ClientDataGrid.SelectionChanged += ClientDataGrid_SelectionChanged;
@@ -30,17 +30,9 @@ namespace pr5
             passwordBox.KeyUp += TextBox_KeyUp;
 
             text4.PreviewTextInput += Text4_PreviewTextInput;
-            text5.LostFocus += Text5_LostFocus;
         }
 
-        private void Text5_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (!Regex.IsMatch(text5.Text, @"^.+@.+\..+$"))
-            {
-                MessageBox.Show("Неверный формат электронной почты.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
-                text5.Focus();
-            }
-        }
+   
 
         private void Text4_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
@@ -241,7 +233,7 @@ namespace pr5
                 }
             }
         }
-
+        
 
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -254,16 +246,33 @@ namespace pr5
             }
         }
 
+        private bool isResettingText = false;
+
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (sender is TextBox textBox)
             {
-                if (string.IsNullOrWhiteSpace(textBox.Text))
+                if (!isResettingText)
                 {
-                    textBox.Text = textBox.Tag.ToString();
+                    try
+                    {
+                        if (!Regex.IsMatch(textBox.Text, @"^[а-яА-Яa-zA-Z0-9@.,]+$") || !Char.IsLetter(textBox.Text[0]))
+                        {
+                            MessageBox.Show("Пожалуйста, введите только буквы (включая русские), цифры и символ '@', и убедитесь, что первый символ - буква.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            isResettingText = true;
+                            textBox.Text = textBox.Tag.ToString();
+                            isResettingText = false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при проверке ввода: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }
+
+
 
         private void PasswordBox_GotFocus(object sender, RoutedEventArgs e)
         {

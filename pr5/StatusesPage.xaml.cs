@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -7,13 +8,13 @@ namespace pr5
 {
     public partial class StatusesPage : Page
     {
-        private prEntities db;
+        private prEntities2 db;
 
         public StatusesPage()
         {
             InitializeComponent();
 
-            db = new prEntities();
+            db = new prEntities2();
             LoadStatusesData();
         }
 
@@ -131,16 +132,40 @@ namespace pr5
                 }
             }
         }
+        private bool isResettingText = false;
+        private void StatusesDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (StatusesDataGrid.SelectedItem != null)
+            {
+                Statuses selectedStatus = (Statuses)StatusesDataGrid.SelectedItem;
+                statusTypeTextBox.Text = selectedStatus.Status_Type;
+            }
+        }
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (sender is TextBox textBox)
             {
-                if (string.IsNullOrWhiteSpace(textBox.Text))
+                if (!isResettingText)
                 {
-                    textBox.Text = textBox.Tag.ToString();
+                    try
+                    {
+                        if (!Regex.IsMatch(textBox.Text, @"^[а-яА-Яa-zA-Z0-9@.,]+$") || !Char.IsLetter(textBox.Text[0]))
+                        {
+                            MessageBox.Show("Пожалуйста, введите только буквы (включая русские), цифры и символ '@', и убедитесь, что первый символ - буква.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            isResettingText = true;
+                            textBox.Text = textBox.Tag.ToString();
+                            isResettingText = false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при проверке ввода: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }
+
+
     }
 }

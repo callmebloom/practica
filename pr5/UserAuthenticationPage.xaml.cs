@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -8,13 +9,13 @@ namespace pr5
 {
     public partial class UserAuthenticationPage : Page
     {
-        private prEntities db;
+        private prEntities2 db;
 
         public UserAuthenticationPage()
         {
             InitializeComponent();
 
-            db = new prEntities();
+            db = new prEntities2();
             LoadComboBoxData();
             LoadUserData();
         }
@@ -192,17 +193,33 @@ namespace pr5
                 }
             }
         }
+        private bool isResettingText = false;
 
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             if (sender is TextBox textBox)
             {
-                if (string.IsNullOrWhiteSpace(textBox.Text))
+                if (!isResettingText)
                 {
-                    textBox.Text = textBox.Tag.ToString();
+                    try
+                    {
+                        if (!Regex.IsMatch(textBox.Text, @"^[а-яА-Яa-zA-Z0-9@.,]+$") || !Char.IsLetter(textBox.Text[0]))
+                        {
+                            MessageBox.Show("Пожалуйста, введите только буквы (включая русские), цифры и символ '@', и убедитесь, что первый символ - буква.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                            isResettingText = true;
+                            textBox.Text = textBox.Tag.ToString();
+                            isResettingText = false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ошибка при проверке ввода: " + ex.Message, "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
                 }
             }
         }
+
+
 
         private void PasswordBox_GotFocus(object sender, RoutedEventArgs e)
         {
@@ -219,13 +236,23 @@ namespace pr5
         {
             if (sender is PasswordBox passwordBox)
             {
-                if (string.IsNullOrWhiteSpace(passwordBox.Password))
+                if (passwordBox.Password.Length < 7)
                 {
-                    passwordBox.Password = passwordBox.Tag.ToString();
+                    MessageBox.Show("Пароль должен содержать не менее 8 символов.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+                    passwordBox.Password = string.Empty; 
                 }
             }
         }
 
+        private void UserAuthenticationDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (UserAuthenticationDataGrid.SelectedItem != null)
+            {
+                User_Authentication selectedUser = (User_Authentication)UserAuthenticationDataGrid.SelectedItem;
+                usernameTextBox.Text = selectedUser.Username;
+                roleComboBox.SelectedItem = selectedUser.Roles;
+            }
+        }
         private void ClearInputFields()
         {
             usernameTextBox.Text = "Username";

@@ -23,7 +23,6 @@ namespace pr5
         public int Training_Data_ID { get; set; }
         public string Employee_First_Name { get; set; }
         public string Employee_Middle_Name { get; set; }
-        public int ID_Roles { get; set; }
     
         public virtual Employers Employers { get; set; }
         public virtual Nationality Nationality { get; set; }

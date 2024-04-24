@@ -10,18 +10,20 @@
 
         <!-- Верхняя часть страницы с полями ввода -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="5">
-            <TextBox x:Name="productNameTextBox" Text="Product Name" Tag="Product Name" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-            <TextBox x:Name="priceTextBox" Text="Price" Tag="Price" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
-            <Button Content="Add" Click="Add_Click" Margin="5"/>
-            <Button x:Name="edit" Content="Edit" Click="Edit_Click" Margin="5"/>
-            <Button Content="Delete" Click="Delete_Click" Margin="5"/>
+            <TextBox x:Name="productNameTextBox" Text="название" Tag="Product Name" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+            <TextBox x:Name="priceTextBox" Text="цена" Tag="цена" Margin="5" GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+           
+                <Button Content="добавить" Click="Add_Click" Margin="5"/>
+                <Button Content="редактировать" Click="Edit_Click" Margin="5"/>
+                <Button Content="удалить" Click="Delete_Click" Margin="5"/>
+           
         </StackPanel>
 
         <!-- Центральная часть страницы с таблицей -->
-        <DataGrid x:Name="ProductDataGrid" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" Margin="10">
+        <DataGrid x:Name="ProductDataGrid" Grid.Row="1" AutoGenerateColumns="False" SelectionChanged="ProductDataGrid_SelectionChanged" IsReadOnly="True" Margin="10">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Product Name" Binding="{Binding Product_Name}"/>
-                <DataGridTextColumn Header="Price" Binding="{Binding Price}"/>
+                <DataGridTextColumn Header="название" Binding="{Binding Product_Name}"/>
+                <DataGridTextColumn Header="цена" Binding="{Binding Price}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
